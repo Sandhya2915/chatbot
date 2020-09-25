@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>YoYo Pizza</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <link href="//db.onlinewebfonts.com/c/c230ecbf5e13583fc4c70a14726c9055?family=Tangerine" rel="stylesheet" type="text/css"/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        :root {
+  --msger-bg: #fff;
+  --left-msg-bg: #388fff;
+  --right-msg-bg: #ff0090;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: white;
+  font-family: Helvetica, sans-serif;
+}
+h1
+{
+color: #ab0aab;
+margin-top: 20px;
+margin-left: -35px;
+font-family: "Tangerine", cursive, sans-serif;
+font-weight: bold;
+font-size: 65px;
+}
+h2
+{
+text-align: center;
+font-family: "Tangerine", cursive, sans-serif;
+font-size: 50px;
+}
+h3
+{
+text-align: center;
+font-family: "Tangerine", cursive, sans-serif;
+font-size: 50px;
+}
+
+.msger {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 867px;
+  margin: 25px 10px;
+  height: calc(100% - 50px);
+  background: var(--msger-bg);
+}
+
+.msger-chat {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px;
+}
+.msger-chat::-webkit-scrollbar {
+  width: 6px;
+}
+.msger-chat::-webkit-scrollbar-track {
+  background: #ddd;
+}
+.msger-chat::-webkit-scrollbar-thumb {
+  background: #bdbdbd;
+}
+.msg {
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: 10px;
+}
+
+.msg-img {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+  background: #ddd;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  border-radius: 50%;
+}
+.msg-bubble {
+  max-width: 450px;
+  padding: 15px;
+  border-radius: 25px;
+  background: var(--left-msg-bg);
+}
+.msg-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.msg-info-name {
+  margin-right: 10px;
+  font-weight: bold;
+}
+.msg-info-time {
+  font-size: 0.85em;
+}
+
+.left-msg .msg-bubble {
+  border-bottom-left-radius: 0;
+  color: #fff;
+}
+
+.right-msg {
+  flex-direction: row-reverse;
+}
+.right-msg .msg-bubble {
+  background: var(--right-msg-bg);
+  color: #fff;
+  border-bottom-right-radius: 0;
+}
+.right-msg .msg-img {
+  margin: 0 0 0 10px;
+}
+
+.msger-inputarea {
+  display: flex;
+  padding: 3px;
+  border-color: #000;
+  background: #fff;
+}
+.msger-inputarea * {
+  padding: 10px;
+  border-radius: 3px;
+  font-size: 1em;
+}
+.msger-input {
+  flex: 1;
+  border-color: #000;
+  color: red;
+  background: #fff;
+}
+.msger-send-btn {
+  margin-left: 10px;
+  border-color: #000;
+  background: rgb(0, 196, 65);
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.23s;
+}
+.msger-send-btn:hover {
+  background: rgb(0, 180, 50);
+}
+
+.msger-chat {
+  background-color: white;
+}
+.btn {
+  border:none;
+  border-radius: 18px;
+  background-color: inherit;
+  padding: 14px 28px;
+  font-size: 16px;
+  cursor: pointer;
+  display: inline-block;
+}
+.order {
+    color: green;
+    background-color: white;
+}
+
+.order:hover {
+    color: black;
+}
+
+.track {
+    color: green;
+    background-color: white;
+}
+
+.track:hover {
+    color: black;
+}
+.menu {
+    color: green;
+    background-color: white;
+}
+
+.menu:hover {
+    color: black;
+}
+
+.btn:hover {background: #eee;}
+
+.ordermenu {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  -webkit-animation-name: fadeIn; /* Fade in the background */
+  -webkit-animation-duration: 0.4s;
+  animation-name: fadeIn;
+  animation-duration: 0.4s
+}
+.ordermenu-content {
+  position: fixed;
+  bottom: 0;
+  background-color: #fefefe;
+  width: 100%;
+  -webkit-animation-name: slideIn;
+  -webkit-animation-duration: 0.4s;
+  animation-name: slideIn;
+  animation-duration: 0.4s
+}
+
+/* The Close Button */
+.close {
+  color: white;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.ordermenu-header {
+  padding: 2px 16px;
+  background-color: orange;
+  color: white;
+}
+
+.ordermenu-body {padding: 2px 16px;}
+
+.ordermenu-footer {
+  padding: 2px 16px;
+  background-color: #5cb85c;
+  color: white;
+}
+.logo-image{
+    width: 130px;
+	height:100px;
+	-webkit-backface-visibility: hidden;
+	margin-top: 0;
+	margin-bottom: 0;
+}
+#cursive{
+
+}
+    </style>
+</head>
+
+<body>
+  <!-- partial:index.partial.html -->
+  <section class="msger">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-5">
+          <img class="logo-image" align="right" src="https://t4.ftcdn.net/jpg/03/21/33/93/240_F_321339306_3UStnILdqK6xNbduTBbYido78UytJnzC.jpg">
+        </div>
+        <div class="col-sm-7"><h1 id="cursive" style="text-align: left">YoYo Pizza</h1></div>
+      </div>
+    </div>
+    <main class="msger-chat">
+      <div class="msg left-msg">
+        <div class="msg-img" style="background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ3lYGstc2ZddLh6TZ3qb_CdyCtcppP7O_N4A&usqp=CAU)"></div>
+
+        <div class="msg-bubble">
+          <div class="msg-info">
+            <div class="msg-info-name">YoYo Man</div>
+          </div>
+
+          <div class="msg-text">
+            <p> Hi, Welcome to YoYo Pizza!! What can I do for you? 😄</p>
+            <button id="mymenu" class="btn menu">Order a Pizza</button><br><br>
+            <button id="trackbtn" class="btn track">Track your order</button><br>
+        </div>
+      </div>
+
+          </div>
+
+    </main>
+
+     <div id="myorderid" class="ordermenu">
+  <div class="ordermenu-content">
+    <div class="ordermenu-header">
+      <span class="close">&times;</span>
+      <h2>YoYo Pizza's Menu</h2>
+    </div>
+    <div class="ordermenu-body">
+      <!--<p>Pizza Name&ensp;&ensp;&ensp;Pizza Code&ensp;&ensp;&ensp;Pizza Prize </p> -->
+      <br>
+      1. <button id="p1" class="pizza">Double Cheese Margarita Pizza</button><p>Pizza's Code: 1001&ensp;&ensp;Price: 200 Rs</p><br>
+      2. <button id="p2" class="pizza">Indi Tandoori Paneer</button><p>Pizza's Code: 1002&ensp;&ensp;Price: 415 Rs</p><br>
+      3. <button id="p3" class="pizza">Chicken Golden Delight</button><p>Pizza's Code: 1003&ensp;&ensp;Price: 515 Rs</p><br>
+      4. <button id="p4" class="pizza">Chicken Dominator</button><p>Pizza's Code: 1004&ensp;&ensp;Price: 640 Rs</p>
+    </div>
+    <div class="ordermenu-footer">
+      <h3>Continue Shopping with YoYo Pizza</h3>
+    </div>
+  </div>
+
+</div>
+
+    <form class="msger-inputarea">
+      <input type="text" class="msger-input" id="textInput" placeholder="Enter your message...">
+      <button type="submit" class="msger-send-btn">Send</button>
+    </form>
+  </section>
+  <!-- partial -->
+  <script src='https://use.fontawesome.com/releases/v5.0.13/js/all.js'></script>
+  <script>
+
+    const msgerForm = get(".msger-inputarea");
+    const msgerInput = get(".msger-input");
+    const msgerChat = get(".msger-chat");
+
+
+    // Icons made by Freepik from www.flaticon.com
+    const BOT_IMG = "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ3lYGstc2ZddLh6TZ3qb_CdyCtcppP7O_N4A&usqp=CAU";
+    const PERSON_IMG = "data:image/jpeg;base64,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";
+    const BOT_NAME = "YoYo Man";
+    const PERSON_NAME = "You";
+
+    msgerForm.addEventListener("submit", event => {
+      event.preventDefault();
+
+      const msgText = msgerInput.value;
+      if (!msgText) return;
+
+      appendMessage(PERSON_NAME, PERSON_IMG, "right", msgText);
+      msgerInput.value = "";
+      botResponse(msgText);
+    });
+
+    function appendMessage(name, img, side, text) {
+      //   Simple solution for small apps
+      const msgHTML = `
+<div class="msg ${side}-msg">
+  <div class="msg-img" style="background-image: url(${img})"></div>
+
+  <div class="msg-bubble">
+    <div class="msg-info">
+      <div class="msg-info-name">${name}</div>
+    </div>
+
+    <div class="msg-text">${text}</div>
+  </div>
+</div>
+`;
+
+      msgerChat.insertAdjacentHTML("beforeend", msgHTML);
+      msgerChat.scrollTop += 500;
+    }
+    function k(name, img, side, text) {
+      //   Simple solution for small apps
+      const msgHTML = `
+<div class="msg ${side}-msg">
+  <div class="msg-img" style="background-image: url(${img})"></div>
+
+  <div class="msg-bubble">
+    <div class="msg-info">
+      <div class="msg-info-name">${name}</div>
+    </div>
+
+    <div class="msg-text">${text}</div>
+    <button id="b1" onclick=o() class="btn menu">Make a new order</button><br><br>
+    <button id="b2" onclick=t() class="btn track">Track your order</button><br>
+  </div>
+</div>
+`;
+
+      msgerChat.insertAdjacentHTML("beforeend", msgHTML);
+      msgerChat.scrollTop += 500;
+    }
+    function o()
+    {
+    var modal1 = document.getElementById("myorderid");
+    modal1.style.display = "block";
+    }
+    function t()
+    {
+    appendMessage(PERSON_NAME, PERSON_IMG, "right", "I need to track my order");
+    botResponse("I need to track my order");
+    }
+
+
+    function botResponse(rawText) {
+
+      // Bot Response
+      $.get("/get", { msg: rawText }).done(function (data) {
+        console.log(rawText);
+        console.log(data);
+        const msgText = data;
+        appendMessage(BOT_NAME, BOT_IMG, "left", msgText);
+        if(msgText.includes("order has been placed successfully. Your order id is"))
+        {
+        k(BOT_NAME, BOT_IMG, "left", "Click below to track your order or to place new order");
+        }
+      });
+
+    }
+
+
+    // Utils
+    function get(selector, root = document) {
+      return root.querySelector(selector);
+    }
+
+    function formatDate(date) {
+      const h = "0" + date.getHours();
+      const m = "0" + date.getMinutes();
+
+      return `${h.slice(-2)}:${m.slice(-2)}`;
+    }
+
+var modal = document.getElementById("myorderid");
+var trackbtn = document.getElementById("trackbtn");
+var menubtn = document.getElementById("mymenu");
+
+var p1 = document.getElementById("p1");
+var p2 = document.getElementById("p2");
+var p3 = document.getElementById("p3");
+var p4 = document.getElementById("p4");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+menubtn.onclick = function() {
+  modal.style.display = "block";
+}
+
+p1.onclick = function() {
+
+  modal.style.display = "none";
+  appendMessage(PERSON_NAME, PERSON_IMG, "right", "Double Cheese Margarita Pizza");
+  botResponse("Double Cheese Margarita Pizza");
+}
+p2.onclick = function() {
+  modal.style.display = "none";
+  appendMessage(PERSON_NAME, PERSON_IMG, "right", "Indi Tandoori Paneer");
+  botResponse("Indi Tandoori Paneer");
+}
+p3.onclick = function() {
+  modal.style.display = "none";
+  appendMessage(PERSON_NAME, PERSON_IMG, "right", "Chicken Golden Delight");
+  botResponse("Chicken Golden Delight");
+}
+p4.onclick = function() {
+  modal.style.display = "none";
+  appendMessage(PERSON_NAME, PERSON_IMG, "right", "Chicken Dominator");
+  botResponse("Chicken Dominator");
+}
+
+trackbtn.onclick = function() {
+
+  appendMessage(PERSON_NAME, PERSON_IMG, "right", "I need to track my order");
+  botResponse("I need to track my order");
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+
+  </script>
+
+</body>
+
+</html>

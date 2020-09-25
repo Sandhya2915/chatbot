@@ -1,0 +1,10 @@
+Double Cheese Margarita Pizza
+Kindly, provide your (name;contact number;delivery address) as in specified format
+Indi Tandoori Paneer
+Kindly, provide your (name;contact number;delivery address) as in specified format
+Chicken Golden Delight
+Kindly, provide your (name;contact number;delivery address) as in specified format
+Chicken Dominator
+Kindly, provide your (name;contact number;delivery address) as in specified format
+I need to track my order
+Please provide your order id
